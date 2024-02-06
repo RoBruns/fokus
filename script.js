@@ -7,6 +7,9 @@ const text = document.querySelector('.app__title');
 const buttons = document.querySelectorAll('.app__card-button');
 const inputMusic = document.querySelector('#alternar-musica');
 const music = new Audio('/sons/luna-rise-part-one.mp3');
+const beepAudio = new Audio('/sons/beep.mp3');
+const playAudio = new Audio('/sons/play.wav');
+const pauseAudio = new Audio('/sons/pause.mp3');
 const startPauseButton = document.querySelector('#start-pause');
 
 let timeDecountInSecond = 5;
@@ -56,6 +59,9 @@ function buttonClick(button, contexto) {
 
 music.loop = true;
 music.volume = 0.3;
+beepAudio.volume = 0.3;
+playAudio.volume = 0.3;
+pauseAudio.volume = 0.3;
 
 inputMusic.addEventListener('change', () => {
     if (music.paused) {
@@ -70,8 +76,10 @@ buttonClick(shortBreakButton, 'descanso-curto');
 buttonClick(longBreakButton, 'descanso-longo');
 
 const regressiveCount = () => {
+
     if (timeDecountInSecond <= 0) {
         reset();
+        beepAudio.play();
         alert('Tempo finalizado!');
         return;
     }
@@ -84,8 +92,10 @@ startPauseButton.addEventListener('click', startOrPause);
 function startOrPause() {
     if (intervalID) {
         reset();
+        pauseAudio.play();
         return;
     }
+    playAudio.play();
     intervalID = setInterval(regressiveCount, 1000);
 }
 
